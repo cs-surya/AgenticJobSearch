@@ -1,0 +1,47 @@
+# ==========================================
+# 1. Personal Profiles & Confidential Configs
+# ==========================================
+config/profile.json
+config/filter_config.json
+config/*.json
+!config/*.example.json
+
+# ==========================================
+# 2. Phase 4: Encrypted Vault & Password Data
+# ==========================================
+*.key
+*.vault
+*vault*.db
+*secret*
+.env
+.env.*
+data/vault/
+data/credentials/
+
+# ==========================================
+# 3. Generated Resumes, PDFs & Local Databases
+# ==========================================
+data/resumes/
+*.pdf
+*.db
+*.sqlite
+*.sqlite3
+data/*.db
+
+# ==========================================
+# 4. Python Environment & System Junk
+# ==========================================
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+.idea/
+.vscode/
+
+# ==========================================
+# 5. Local Cache (Except when committed by CI)
+# ==========================================
+data/cron.log

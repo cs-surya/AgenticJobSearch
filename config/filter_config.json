@@ -1,0 +1,25 @@
+{
+  "target_roles": [
+    "Software Engineer",
+    "Backend",
+    "Full Stack",
+    "Python Developer",
+    "Distributed Systems"
+  ],
+  "locations": [
+    "Remote",
+    "San Francisco",
+    "United States",
+    "US"
+  ],
+  "max_days_old": 30,
+  "allow_unspecified_dates": true,
+  "is_remote_only": false,
+  "excluded_keywords": [
+    "Staff",
+    "Principal",
+    "Director",
+    "VP",
+    "Intern"
+  ]
+}
