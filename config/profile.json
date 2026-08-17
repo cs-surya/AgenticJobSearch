@@ -1,14 +1,196 @@
 {
   "personal": {
-    "first_name": "Firstname",
-    "last_name": "Lastname",
-    "email": "user@example.com",
-    "phone": "+1 (000) 000-0000",
-    "location": "City, Country",
-    "linkedin": "https://linkedin.com/in/username",
-    "github": "https://github.com/username"
+    "first_name": "Surya",
+    "last_name": "Chandiramouli Subhashini",
+    "full_name": "Surya Chandiramouli Subhashini",
+    "title": "Full-Stack Developer | Cybersecurity Enthusiast",
+    "email": "cssurya29@gmail.com",
+    "phone": "",
+    "location": "Coimbatore, Tamil Nadu, India",
+    "linkedin": "https://www.linkedin.com/in/surya-cs",
+    "github": "https://github.com/surya-cs",
+    "portfolio": "https://www.cssurya.com/"
   },
-  "summary": "Sample summary here...",
-  "skills": ["Skill1", "Skill2"],
-  "experiences": []
+  "summary": "Full-Stack Developer with 4+ years of experience in scalable, secure, and cloud-native solutions[cite: 1]. Passionate about Quantum Cybersecurity, emerging technologies, and scientific innovation[cite: 1]. Skilled in React, Angular, .NET Core, Python, and DevOps, with expertise in bridging full-stack development, security, and cloud infrastructure to build future-ready applications[cite: 1]. Proven track record in building high-scale consumer applications, modernizing enterprise architectures, and optimizing backend performance[cite: 1].",
+  "skills": [
+    "Python",
+    "FastAPI",
+    "React",
+    "Angular",
+    "TypeScript",
+    "JavaScript",
+    ".NET Core",
+    "C#",
+    "MySQL",
+    "SQLAlchemy",
+    "ElasticSearch",
+    "Redis",
+    "GraphQL",
+    "Sentence Transformers / NLP",
+    "Microservices Architecture",
+    "Cybersecurity / Honeywords / Active Defense",
+    "Gatsby",
+    "Redux",
+    "Styled Components",
+    "Contentful",
+    "HTML5",
+    "CSS3",
+    "RESTful APIs",
+    "GitLab CI/CD",
+    "Jenkins",
+    "Git",
+    "Docker",
+    "TDD",
+    "Cypress",
+    "Selenium",
+    "NUnit",
+    "MSTest",
+    "Agile/Scrum",
+    "WCAG 2.1 / Accessibility (ARIA)",
+    "Quantum Cybersecurity",
+    "Chatbot Design"
+  ],
+  "languages": [
+    { "language": "Tamil", "proficiency": "Native or Bilingual" },
+    { "language": "English", "proficiency": "Professional Working" },
+    { "language": "Telugu", "proficiency": "Limited Working" },
+    { "language": "Hindi", "proficiency": "Limited Working" },
+    { "language": "French", "proficiency": "Elementary" }
+  ],
+  "experiences": [
+    {
+      "company": "Bell",
+      "role": "Full Stack Developer",
+      "location": "Toronto, Ontario, Canada",
+      "start_date": "2023-12",
+      "end_date": "2025-01",
+      "is_current": false,
+      "technologies": ["Angular", ".NET", "C#", "MySQL", "GitLab CI/CD", "TDD", "REST APIs"],
+      "highlights": [
+        "Developed and maintained scalable web applications using Angular, delivering seamless user experiences and aligning with business requirements[cite: 1].",
+        "Designed and implemented RESTful APIs using .NET, C#, and MySQL to support feature-rich, data-driven applications, enabling efficient backend communication[cite: 1].",
+        "Leveraged Test-Driven Development (TDD) principles to design test-oriented applications, achieving a 40% improvement in development efficiency using GitLab runner pipelines[cite: 1].",
+        "Spearheaded new web application initiatives to enhance Field Services efficiency and productivity, incorporating unit testing to ensure high-quality deliverables[cite: 1].",
+        "Provided technical support and troubleshooting for web applications, isolating and debugging complex runtime issues[cite: 1].",
+        "Conducted comprehensive data integrity analysis to resolve anomalies, ensuring accuracy and reliability across distributed systems[cite: 1]."
+      ]
+    },
+    {
+      "company": "Nokia",
+      "role": "Frontend Developer",
+      "location": "Ottawa, ON, Canada",
+      "start_date": "2022-09",
+      "end_date": "2023-04",
+      "is_current": false,
+      "technologies": ["React", "TypeScript", "HTML5", "CSS3", "Cypress", "Selenium", "WCAG 2.1"],
+      "highlights": [
+        "Designed and implemented user-friendly, responsive front-end interfaces using React, TypeScript, HTML5, and CSS3[cite: 1].",
+        "Created reusable UI components and design patterns, reducing development time for new features by 70%[cite: 1].",
+        "Streamlined form validation processes with dynamic client-side and server-side validation, reducing error rates by 90% and boosting data accuracy[cite: 1].",
+        "Automated UI testing using Cypress and Selenium, reducing manual testing time by 85% and cutting recurring issues by 90%[cite: 1].",
+        "Developed intuitive dashboards and interactive data visualizations to support executive decision-making[cite: 1].",
+        "Implemented WCAG 2.1 accessibility standards across web applications, ensuring compliance and usability[cite: 1]."
+      ]
+    },
+    {
+      "company": "Payoda Technology Inc",
+      "role": "Software Engineer III",
+      "location": "Coimbatore, Tamil Nadu, India",
+      "start_date": "2020-09",
+      "end_date": "2021-07",
+      "is_current": false,
+      "technologies": ["React", "Gatsby", "TypeScript", "GraphQL", "Redux", "Styled Components", "Contentful", "Cypress"],
+      "highlights": [
+        "Single-handedly led the version 1 to version 2 transition and maintenance for Europe's leading software company website using modern JavaScript frameworks[cite: 1].",
+        "Developed responsive and high-performing web applications using Gatsby, React, TypeScript, GraphQL, and Contentful, driving a 30% increase in user engagement[cite: 1].",
+        "Architected reusable UI/UX React components with Redux, enhancing application scalability and cross-browser compatibility[cite: 1].",
+        "Enforced WCAG and ARIA accessibility guidelines across user interfaces to ensure inclusivity for diverse international audiences[cite: 1].",
+        "Executed structured test plans and defect reporting, reducing production defects by 25%[cite: 1]."
+      ]
+    },
+    {
+      "company": "Payoda Technology Inc",
+      "role": "Software Developer",
+      "location": "Coimbatore, Tamil Nadu, India",
+      "start_date": "2019-11",
+      "end_date": "2020-09",
+      "is_current": false,
+      "technologies": ["C#", ".NET Core", "MySQL", "ElasticSearch", "Redis", "NUnit", "MSTest", "Git", "Jenkins"],
+      "highlights": [
+        "Played a pivotal role in developing and maintaining India's first social media app, supporting high-throughput user activity[cite: 1].",
+        "Built and maintained high-performance REST APIs using C#, .NET Core, MySQL, ElasticSearch, and Redis cache for scalable backend delivery[cite: 1].",
+        "Resolved critical production incidents under a strict 10-hour SLA in a fast-paced environment to ensure zero downtime[cite: 1].",
+        "Implemented comprehensive unit test suites using NUnit and MSTest, reducing testing overhead by 40%[cite: 1].",
+        "Configured CI/CD automation pipelines via Git, Jenkins, Confluence, and Jira within Agile/Scrum sprints[cite: 1]."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Pysch AI Bot – Microservice-Based Semantic AI Search Assistant",
+      "role": "Full-Stack AI Developer",
+      "technologies": ["FastAPI", "Python", "Sentence Transformers", "SQLAlchemy", "React", "arXiv API", "REST APIs"],
+      "highlights": [
+        "Engineered a lightweight AI-powered research assistant utilizing semantic search to retrieve academic papers from arXiv.org.",
+        "Architected a modular two-microservice design: a WhatsApp-style React chat interface and a FastAPI backend engine.",
+        "Implemented sentence embeddings and vectorized cosine similarity scoring for real-time natural language query matching.",
+        "Developed full RESTful API endpoints documented via OpenAPI/Swagger with SQLAlchemy persistence."
+      ]
+    },
+    {
+      "title": "Proactive Intrusion Detection Using Honeywords",
+      "role": "Cybersecurity & Backend Engineer",
+      "technologies": ["Python", "Active Defense", "Cybersecurity", "Honeypots", "Network Security"],
+      "highlights": [
+        "Built an active defense authentication system detecting compromised credentials in real time using algorithmically generated decoy passwords (honeywords).",
+        "Engineered a secure HoneyChecker validation server that triggers automatic decoy data redirection to mislead and exhaust attacker resources.",
+        "Developed IP tracking, blacklisting, and stealth metadata extraction mechanisms to gather forensic intelligence on active intruders."
+      ]
+    },
+    {
+      "title": "India's First Social Media Application",
+      "role": "Backend / Full-Stack Engineer",
+      "technologies": [".NET Core", "C#", "MySQL", "ElasticSearch", "Redis", "REST APIs"],
+      "highlights": [
+        "Architected and delivered scalable RESTful backend microservices for a nationwide social media platform[cite: 1].",
+        "Leveraged ElasticSearch for rapid search indexing and Redis for distributed caching under high concurrency[cite: 1]."
+      ]
+    },
+    {
+      "title": "European Enterprise Web Platform Modernization",
+      "role": "Lead Frontend Engineer",
+      "technologies": ["React", "Gatsby", "GraphQL", "TypeScript", "Contentful", "Redux"],
+      "highlights": [
+        "Orchestrated the complete V1 to V2 migration of a multi-region corporate platform for Europe's leading software provider[cite: 1].",
+        "Boosted user engagement by 30% and modernized headless CMS content delivery across European markets[cite: 1]."
+      ]
+    },
+    {
+      "title": "Field Services Workflow & Telemetry Application",
+      "role": "Full-Stack Developer",
+      "technologies": ["Angular", ".NET", "C#", "MySQL", "GitLab CI/CD", "TDD"],
+      "highlights": [
+        "Developed internal field operations and diagnostic web systems at Bell, improving field technician productivity[cite: 1].",
+        "Enhanced automated CI/CD deployment cycles by 40% using GitLab runners and comprehensive TDD suites[cite: 1]."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Windsor",
+      "degree": "Master of Applied Computing (MS in Applied Computing)",
+      "field_of_study": "Computing",
+      "location": "Windsor, Ontario, Canada",
+      "start_year": "2021",
+      "end_year": "2022"
+    },
+    {
+      "institution": "Karpagam College of Engineering",
+      "degree": "Bachelor of Engineering (B.E.)",
+      "field_of_study": "Computer Science and Engineering",
+      "location": "Coimbatore, Tamil Nadu, India",
+      "start_year": "2016",
+      "end_year": "2020"
+    }
+  ]
 }
