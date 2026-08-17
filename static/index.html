@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobAgent | Intelligent Matcher</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --panel: #111827;
+      --card: #162032;
+      --border: #2d3748;
+      --accent: #38bdf8;
+      --accent-hover: #0ea5e9;
+      --text: #f9fafb;
+      --muted: #94a3b8;
+      --success: #22c55e;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 1.5rem;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 { font-size: 1.5rem; color: var(--accent); }
+
+    .status-badge {
+      background: #1e293b;
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    /* Candidate Profile Box */
+    .profile-banner {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .profile-banner h2 { font-size: 1.1rem; color: #fff; }
+    .profile-banner p { font-size: 0.85rem; color: var(--muted); }
+    .skills-tag { font-size: 0.8rem; color: var(--accent); margin-top: 0.25rem; }
+
+    /* Filters Section */
+    .filters-container {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) auto;
+      gap: 1rem;
+      align-items: end;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-group label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    input, select {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 0.6rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+      width: 100%;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    .btn-match {
+      background: var(--accent);
+      color: #0b0f19;
+      font-weight: 700;
+      border: none;
+      padding: 0.6rem 1.3rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      height: 38px;
+      white-space: nowrap;
+    }
+
+    .btn-match:hover { background: var(--accent-hover); }
+
+    /* Terminal Console */
+    .terminal-box {
+      background: #040711;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      height: 95px;
+      overflow-y: auto;
+    }
+
+    .terminal-box .time { color: #64748b; margin-right: 0.5rem; }
+
+    /* Results Heading & Pagination */
+    .results-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .results-heading h3 { font-size: 1.1rem; }
+    .summary-text { font-size: 0.85rem; color: var(--muted); }
+
+    .pagination-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-page {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 0.35rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .btn-page:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-page:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .page-info {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Grid Layout */
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.25rem;
+      width: 100%;
+    }
+
+    /* Card Styling */
+    .job-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+      min-height: 250px;
+      transition: border-color 0.15s;
+    }
+
+    .job-card:hover {
+      border-color: var(--accent);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .job-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+      word-break: break-word;
+    }
+
+    .similarity-pill {
+      flex-shrink: 0;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid var(--success);
+      color: var(--success);
+      padding: 0.25rem 0.5rem;
+      border-radius: 5px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    .similarity-pill span {
+      display: block;
+      font-size: 0.55rem;
+      font-weight: normal;
+      color: var(--muted);
+    }
+
+    /* Badge Metadata */
+    .job-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .badge-company {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      background: #1e293b;
+      border: 1px solid #334155;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .badge-loc {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      background: rgba(148, 163, 184, 0.1);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .badge-ats {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-left: auto;
+    }
+
+    .ats-greenhouse { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .ats-lever { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .ats-ashby { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .ats-workday { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .ats-direct { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.3); }
+
+    .job-desc {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      line-height: 1.45;
+      margin-bottom: 1rem;
+      word-break: break-word;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-action {
+      flex: 1;
+      text-align: center;
+      background: #1e293b;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 0.45rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-action:hover { background: #334155; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div>
+        <h1>JobAgent Local Dashboard</h1>
+        <div style="font-size: 0.8rem; color: var(--muted);">Phase 2: Semantic FastEmbed Vector Scoring</div>
+      </div>
+      <div class="status-badge" id="statsBadge">Checking cache...</div>
+    </header>
+
+    <!-- Profile Snapshot -->
+    <div class="profile-banner">
+      <div>
+        <h2 id="profName">Surya Chandiramouli Subhashini[cite: 1]</h2>
+        <p id="profRole">Full-Stack Developer | Cybersecurity Enthusiast[cite: 1]</p>
+        <div class="skills-tag" id="profSkills">Loading skills from config/profile.json...</div>
+      </div>
+      <div style="text-align: right; font-size: 0.75rem; color: var(--muted);">
+        SOURCE<br>
+        <strong style="color: #fff;">config/profile.json</strong>
+      </div>
+    </div>
+
+    <!-- Filters Grid -->
+    <div class="filters-container">
+      <div class="form-group">
+        <label>Keywords / Roles</label>
+        <input type="text" id="kwInput" value="Python, React, Full Stack, Backend, Developer" placeholder="e.g. Python, Full Stack">
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" id="locInput" placeholder="e.g. Remote, Canada, India">
+      </div>
+      <div class="form-group">
+        <label>ATS Board</label>
+        <select id="atsSelect">
+          <option value="all">All Platforms</option>
+          <option value="greenhouse">Greenhouse</option>
+          <option value="lever">Lever</option>
+          <option value="ashby">Ashby</option>
+          <option value="workday">Workday</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Cosine Sim: <span id="threshLabel" style="color: var(--accent);">50%</span></label>
+        <input type="range" id="threshSlider" min="30" max="90" value="50" oninput="document.getElementById('threshLabel').innerText = this.value + '%'">
+      </div>
+      <button class="btn-match" onclick="executeMatch()">⚡ Match Jobs</button>
+    </div>
+
+    <!-- Execution Logs -->
+    <div class="terminal-box" id="terminalLog">
+      <div>> Ready. Click '⚡ Match Jobs' to start vector scoring.</div>
+    </div>
+
+    <!-- Results Heading & Pagination -->
+    <div class="results-heading">
+      <div>
+        <h3>Matched Positions</h3>
+        <div class="summary-text" id="resultSummary">0 positions displayed</div>
+      </div>
+      <div class="pagination-bar" id="paginationControls" style="display: none;">
+        <button class="btn-page" id="btnPrev" onclick="changePage(-1)">← Prev</button>
+        <span class="page-info" id="pageIndicator">Page 1 of 1</span>
+        <button class="btn-page" id="btnNext" onclick="changePage(1)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Grid Container -->
+    <div class="jobs-grid" id="jobsGrid"></div>
+  </div>
+
+  <script>
+    let matchedResults = [];
+    let currentPage = 1;
+    const PAGE_SIZE = 12;
+
+    async function loadMeta() {
+      try {
+        const pRes = await fetch('/api/profile');
+        const pData = await pRes.json();
+        document.getElementById('profName').innerText = pData.personal.full_name;
+        document.getElementById('profRole').innerText = pData.personal.title;
+        document.getElementById('profSkills').innerText = "Skills: " + pData.skills.slice(0, 10).join(" • ");
+      } catch (e) {}
+
+      try {
+        const sRes = await fetch('/api/stats');
+        const sData = await sRes.json();
+        document.getElementById('statsBadge').innerText = `${sData.total_jobs_in_cache} Jobs in RAM | Model: ${sData.fastembed_model}`;
+      } catch (e) {}
+    }
+
+    function addLog(msg) {
+      const term = document.getElementById("terminalLog");
+      const time = new Date().toLocaleTimeString();
+      term.innerHTML += `<div><span class="time">[${time}]</span> ${msg}</div>`;
+      term.scrollTop = term.scrollHeight;
+    }
+
+    function executeMatch() {
+      const kw = encodeURIComponent(document.getElementById('kwInput').value);
+      const loc = encodeURIComponent(document.getElementById('locInput').value);
+      const ats = encodeURIComponent(document.getElementById('atsSelect').value);
+      const thresh = parseInt(document.getElementById('threshSlider').value) / 100.0;
+
+      const term = document.getElementById("terminalLog");
+      const grid = document.getElementById("jobsGrid");
+      const summary = document.getElementById("resultSummary");
+      const pagControls = document.getElementById("paginationControls");
+
+      term.innerHTML = "";
+      grid.innerHTML = "";
+      pagControls.style.display = "none";
+      matchedResults = [];
+      currentPage = 1;
+      summary.innerText = "Evaluating matches...";
+
+      const eventSource = new EventSource(`/api/match/stream?keywords=${kw}&location=${loc}&ats=${ats}&threshold=${thresh}`);
+
+      eventSource.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+
+        if (data.type === 'log') {
+          addLog(data.msg);
+        } else if (data.type === 'done') {
+          eventSource.close();
+          matchedResults = data.results || [];
+          summary.innerText = `Found ${data.matched} qualifying positions above ${thresh * 100}% cosine similarity`;
+
+          if (matchedResults.length === 0) {
+            grid.innerHTML = "<div style='color: var(--muted); padding: 2rem; grid-column: 1/-1; text-align: center;'>No positions met this cosine similarity threshold. Try adjusting filters or lowering the slider.</div>";
+            return;
+          }
+
+          renderCurrentPage();
+        } else if (data.type === 'error') {
+          addLog(`<span style="color: #ef4444;">${data.msg}</span>`);
+          eventSource.close();
+        }
+      };
+
+      eventSource.onerror = function() {
+        addLog("<span style='color: #ef4444;'>[ERROR] Stream disconnected.</span>");
+        eventSource.close();
+      };
+    }
+
+    function renderCurrentPage() {
+      const grid = document.getElementById("jobsGrid");
+      const pagControls = document.getElementById("paginationControls");
+      const pageIndicator = document.getElementById("pageIndicator");
+      const btnPrev = document.getElementById("btnPrev");
+      const btnNext = document.getElementById("btnNext");
+
+      const totalPages = Math.ceil(matchedResults.length / PAGE_SIZE) || 1;
+      pagControls.style.display = totalPages > 1 ? "flex" : "none";
+      pageIndicator.innerText = `Page ${currentPage} of ${totalPages} (${matchedResults.length} total)`;
+
+      btnPrev.disabled = currentPage === 1;
+      btnNext.disabled = currentPage === totalPages;
+
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const pageItems = matchedResults.slice(start, start + PAGE_SIZE);
+
+      grid.innerHTML = pageItems.map((j, i) => {
+        const globalIdx = start + i + 1;
+        const cleanDesc = (j.description || 'No job description provided.').replace(/<[^>]*>?/gm, '').substring(0, 150) + '...';
+
+        const atsName = (j.ats_provider || 'DIRECT').toLowerCase();
+        const atsClass = ['greenhouse', 'lever', 'ashby', 'workday'].includes(atsName)
+          ? `ats-${atsName}`
+          : 'ats-direct';
+
+        return `
+          <div class="job-card">
+            <div>
+              <div class="card-top">
+                <div class="job-title" title="${j.title}">#${globalIdx} ${j.title}</div>
+                <div class="similarity-pill">
+                  ${j.match_percentage}%
+                  <span>SIMILARITY</span>
+                </div>
+              </div>
+
+              <!-- Metadata Badges -->
+              <div class="job-badges">
+                <span class="badge-company">🏢 ${j.company || 'Company'}</span>
+                <span class="badge-loc">📍 ${j.location || 'Remote'}</span>
+                <span class="badge-ats ${atsClass}">${(j.ats_provider || 'DIRECT').toUpperCase()}</span>
+              </div>
+
+              <div class="job-desc">${cleanDesc}</div>
+            </div>
+
+            <div class="card-actions">
+              <a class="btn-action" href="${j.apply_url}" target="_blank">View Posting &rarr;</a>
+              <button class="btn-action" onclick="alert('Phase 3 will compile Typst resume for: ' + '${j.title.replace(/'/g, "\\'")}')">📄 Tailor (Phase 3)</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function changePage(delta) {
+      const totalPages = Math.ceil(matchedResults.length / PAGE_SIZE);
+      const newPage = currentPage + delta;
+      if (newPage >= 1 && newPage <= totalPages) {
+        currentPage = newPage;
+        renderCurrentPage();
+        window.scrollTo({ top: document.querySelector('.results-heading').offsetTop - 20, behavior: 'smooth' });
+      }
+    }
+
+    loadMeta();
+  </script>
+</body>
+</html>
