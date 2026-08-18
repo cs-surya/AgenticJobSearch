@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JobAgent | Intelligent Matcher</title>
+  <title>JobAgent | Intelligent Matcher & Verification Pipeline</title>
   <style>
     :root {
       --bg: #090d16;
@@ -15,6 +15,7 @@
       --text: #f9fafb;
       --muted: #94a3b8;
       --success: #22c55e;
+      --error: #ef4444;
     }
 
     *, *::before, *::after {
@@ -58,7 +59,6 @@
       color: var(--accent);
     }
 
-    /* Candidate Profile Box */
     .profile-banner {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -73,7 +73,6 @@
     .profile-banner p { font-size: 0.85rem; color: var(--muted); }
     .skills-tag { font-size: 0.8rem; color: var(--accent); margin-top: 0.25rem; }
 
-    /* Filters Section */
     .filters-container {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -109,9 +108,7 @@
       width: 100%;
     }
 
-    input:focus, select:focus {
-      border-color: var(--accent);
-    }
+    input:focus, select:focus { border-color: var(--accent); }
 
     .btn-match {
       background: var(--accent);
@@ -128,7 +125,6 @@
 
     .btn-match:hover { background: var(--accent-hover); }
 
-    /* Terminal Console */
     .terminal-box {
       background: #040711;
       border: 1px solid var(--border);
@@ -143,7 +139,6 @@
 
     .terminal-box .time { color: #64748b; margin-right: 0.5rem; }
 
-    /* Results Heading & Pagination */
     .results-heading {
       display: flex;
       justify-content: space-between;
@@ -155,38 +150,12 @@
     .results-heading h3 { font-size: 1.1rem; }
     .summary-text { font-size: 0.85rem; color: var(--muted); }
 
-    .pagination-bar {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+    .pagination-bar { display: flex; align-items: center; gap: 0.5rem; }
+    .btn-page { background: var(--panel); border: 1px solid var(--border); color: #fff; padding: 0.35rem 0.75rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
+    .btn-page:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-page:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .page-info { font-size: 0.85rem; color: var(--muted); }
 
-    .btn-page {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      color: #fff;
-      padding: 0.35rem 0.75rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
-
-    .btn-page:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .btn-page:hover:not(:disabled) {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .page-info {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    /* Grid Layout */
     .jobs-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -194,7 +163,6 @@
       width: 100%;
     }
 
-    /* Card Styling */
     .job-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -208,9 +176,7 @@
       transition: border-color 0.15s;
     }
 
-    .job-card:hover {
-      border-color: var(--accent);
-    }
+    .job-card:hover { border-color: var(--accent); }
 
     .card-top {
       display: flex;
@@ -220,13 +186,7 @@
       margin-bottom: 0.5rem;
     }
 
-    .job-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.3;
-      word-break: break-word;
-    }
+    .job-title { font-size: 1rem; font-weight: 700; color: #fff; line-height: 1.3; word-break: break-word; }
 
     .similarity-pill {
       flex-shrink: 0;
@@ -241,88 +201,33 @@
       line-height: 1.1;
     }
 
-    .similarity-pill span {
-      display: block;
-      font-size: 0.55rem;
-      font-weight: normal;
-      color: var(--muted);
-    }
+    .similarity-pill span { display: block; font-size: 0.55rem; font-weight: normal; color: var(--muted); }
 
-    /* Badge Metadata */
-    .job-badges {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 0.65rem;
-    }
+    .job-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-bottom: 0.65rem; }
+    .badge-company { font-size: 0.75rem; font-weight: 700; color: #f1f5f9; background: #1e293b; border: 1px solid #334155; padding: 0.2rem 0.5rem; border-radius: 4px; }
+    .badge-loc { font-size: 0.75rem; color: #94a3b8; background: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.2); padding: 0.2rem 0.5rem; border-radius: 4px; }
 
-    .badge-company {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #f1f5f9;
-      background: #1e293b;
-      border: 1px solid #334155;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-    }
-
-    .badge-loc {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      background: rgba(148, 163, 184, 0.1);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-    }
-
-    .badge-ats {
-      font-size: 0.7rem;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      text-transform: uppercase;
-      margin-left: auto;
-    }
-
+    .badge-ats { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.4px; padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase; margin-left: auto; }
     .ats-greenhouse { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
     .ats-lever { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
     .ats-ashby { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
     .ats-workday { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
     .ats-direct { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.3); }
 
-    .job-desc {
-      font-size: 0.82rem;
-      color: #cbd5e1;
-      line-height: 1.45;
-      margin-bottom: 1rem;
-      word-break: break-word;
-    }
+    .job-desc { font-size: 0.82rem; color: #cbd5e1; line-height: 1.45; margin-bottom: 1rem; word-break: break-word; }
 
-    .card-actions {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: auto;
-      padding-top: 0.75rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-    }
+    .card-actions { display: flex; gap: 0.5rem; margin-top: auto; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+    .btn-action { flex: 1; text-align: center; background: #1e293b; color: var(--accent); border: 1px solid var(--border); padding: 0.45rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; text-decoration: none; cursor: pointer; }
+    .btn-action:hover:not(:disabled) { background: #334155; }
+    .btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-preview { background: var(--accent); color: #0b0f19; font-weight: 700; }
 
-    .btn-action {
-      flex: 1;
-      text-align: center;
-      background: #1e293b;
-      color: var(--accent);
-      border: 1px solid var(--border);
-      padding: 0.45rem;
-      border-radius: 4px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .btn-action:hover { background: #334155; }
+    /* Modal Styling */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; padding: 1.5rem; z-index: 1000; }
+    .modal-box { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; width: 100%; max-width: 900px; max-height: 90vh; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; }
+    .qa-box { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem; margin-top: 0.5rem; font-size: 0.85rem; }
+    .field-tag { display: inline-block; background: #1e293b; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.78rem; margin: 0.25rem 0.35rem 0.25rem 0; border: 1px solid var(--border); }
   </style>
 </head>
 <body>
@@ -331,25 +236,23 @@
     <header>
       <div>
         <h1>JobAgent Local Dashboard</h1>
-        <div style="font-size: 0.8rem; color: var(--muted);">Phase 2: Semantic FastEmbed Vector Scoring</div>
+        <div style="font-size: 0.8rem; color: var(--muted);">Phase 2: Semantic Matcher | Phase 4: State Tracker | Phase 5: Form Verification & Apply</div>
       </div>
       <div class="status-badge" id="statsBadge">Checking cache...</div>
     </header>
 
-    <!-- Profile Snapshot -->
     <div class="profile-banner">
       <div>
-        <h2 id="profName">Surya Chandiramouli Subhashini[cite: 1]</h2>
-        <p id="profRole">Full-Stack Developer | Cybersecurity Enthusiast[cite: 1]</p>
-        <div class="skills-tag" id="profSkills">Loading skills from config/profile.json...</div>
+        <h2 id="profName">SURYA CS</h2>
+        <p id="profRole">Full Stack Developer</p>
+        <div class="skills-tag" id="profSkills">Loading profile from config/profile.json...</div>
       </div>
       <div style="text-align: right; font-size: 0.75rem; color: var(--muted);">
-        SOURCE<br>
-        <strong style="color: #fff;">config/profile.json</strong>
+        ACTIVE RESUME<br>
+        <strong style="color: #fff;">data/SURYA.pdf</strong>
       </div>
     </div>
 
-    <!-- Filters Grid -->
     <div class="filters-container">
       <div class="form-group">
         <label>Keywords / Roles</label>
@@ -366,22 +269,20 @@
           <option value="greenhouse">Greenhouse</option>
           <option value="lever">Lever</option>
           <option value="ashby">Ashby</option>
-          <option value="workday">Workday</option>
+          <option value="workday">Workday (Held)</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Cosine Sim: <span id="threshLabel" style="color: var(--accent);">50%</span></label>
-        <input type="range" id="threshSlider" min="30" max="90" value="50" oninput="document.getElementById('threshLabel').innerText = this.value + '%'">
+        <label>Cosine Sim: <span id="threshLabel" style="color: var(--accent);">70%</span></label>
+        <input type="range" id="threshSlider" min="30" max="90" value="70" oninput="document.getElementById('threshLabel').innerText = this.value + '%'">
       </div>
       <button class="btn-match" onclick="executeMatch()">⚡ Match Jobs</button>
     </div>
 
-    <!-- Execution Logs -->
     <div class="terminal-box" id="terminalLog">
       <div>> Ready. Click '⚡ Match Jobs' to start vector scoring.</div>
     </div>
 
-    <!-- Results Heading & Pagination -->
     <div class="results-heading">
       <div>
         <h3>Matched Positions</h3>
@@ -394,28 +295,64 @@
       </div>
     </div>
 
-    <!-- Grid Container -->
     <div class="jobs-grid" id="jobsGrid"></div>
+  </div>
+
+  <!-- Review Modal -->
+  <div class="modal-overlay" id="reviewModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h2 id="mTitle" style="font-size: 1.15rem; color: #fff;">Review Application</h2>
+          <p id="mSubTitle" style="font-size: 0.8rem; color: var(--muted);"></p>
+        </div>
+        <button onclick="closeModal()" style="background: none; border: none; color: var(--muted); font-size: 1.3rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div>
+        <strong style="font-size: 0.85rem; text-transform: uppercase; color: var(--muted);">1. Mapped Form Fields & Resume</strong>
+        <div id="mMappedFields" style="margin-top: 0.4rem;"></div>
+      </div>
+
+      <div>
+        <strong style="font-size: 0.85rem; text-transform: uppercase; color: var(--muted);">2. AI Form Answers (Ollama Q&A)</strong>
+        <div id="mQAList"></div>
+      </div>
+
+      <div>
+        <strong style="font-size: 0.85rem; text-transform: uppercase; color: var(--muted);">3. Browser Snapshot Preview</strong>
+        <div style="margin-top: 0.5rem;">
+          <img id="mScreenshot" src="" style="width: 100%; max-height: 380px; object-fit: contain; background: #000; border-radius: 6px; border: 1px solid var(--border);" alt="Form Preview" />
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
+        <button class="btn-action" onclick="closeModal()">Cancel</button>
+        <button class="btn-action btn-preview" id="mBtnApprove" onclick="approveCurrentJob()">✅ Approve & Submit Application</button>
+      </div>
+    </div>
   </div>
 
   <script>
     let matchedResults = [];
     let currentPage = 1;
     const PAGE_SIZE = 12;
+    let currentJobIdx = null;
 
     async function loadMeta() {
       try {
         const pRes = await fetch('/api/profile');
         const pData = await pRes.json();
         document.getElementById('profName').innerText = pData.personal.full_name;
-        document.getElementById('profRole').innerText = pData.personal.title;
-        document.getElementById('profSkills').innerText = "Skills: " + pData.skills.slice(0, 10).join(" • ");
+        document.getElementById('profRole').innerText = pData.experiences?.[0]?.role || "Full Stack Developer";
+        document.getElementById('profSkills').innerText = "Loaded: " + (pData.experiences || []).length + " Experience Roles • " + (pData.projects || []).length + " Projects";
       } catch (e) {}
 
       try {
         const sRes = await fetch('/api/stats');
         const sData = await sRes.json();
-        document.getElementById('statsBadge').innerText = `${sData.total_jobs_in_cache} Jobs in RAM | Model: ${sData.fastembed_model}`;
+        const stats = sData.application_stats || {};
+        document.getElementById('statsBadge').innerText = `${sData.total_jobs_in_cache} Jobs in RAM | Applied: ${stats.APPLIED || 0}`;
       } catch (e) {}
     }
 
@@ -492,7 +429,7 @@
       const pageItems = matchedResults.slice(start, start + PAGE_SIZE);
 
       grid.innerHTML = pageItems.map((j, i) => {
-        const globalIdx = start + i + 1;
+        const globalIdx = start + i;
         const cleanDesc = (j.description || 'No job description provided.').replace(/<[^>]*>?/gm, '').substring(0, 150) + '...';
 
         const atsName = (j.ats_provider || 'DIRECT').toLowerCase();
@@ -504,14 +441,13 @@
           <div class="job-card">
             <div>
               <div class="card-top">
-                <div class="job-title" title="${j.title}">#${globalIdx} ${j.title}</div>
+                <div class="job-title" title="${j.title}">#${globalIdx + 1} ${j.title}</div>
                 <div class="similarity-pill">
                   ${j.match_percentage}%
                   <span>SIMILARITY</span>
                 </div>
               </div>
 
-              <!-- Metadata Badges -->
               <div class="job-badges">
                 <span class="badge-company">🏢 ${j.company || 'Company'}</span>
                 <span class="badge-loc">📍 ${j.location || 'Remote'}</span>
@@ -523,11 +459,113 @@
 
             <div class="card-actions">
               <a class="btn-action" href="${j.apply_url}" target="_blank">View Posting &rarr;</a>
-              <button class="btn-action" onclick="alert('Phase 3 will compile Typst resume for: ' + '${j.title.replace(/'/g, "\\'")}')">📄 Tailor (Phase 3)</button>
+              <button class="btn-action btn-preview" id="btn-preview-${globalIdx}" onclick="openPreview(${globalIdx})">🔍 Preview & Verify</button>
             </div>
           </div>
         `;
       }).join("");
+    }
+
+    async function openPreview(idx) {
+      currentJobIdx = idx;
+      const job = matchedResults[idx];
+      const btn = document.getElementById(`btn-preview-${idx}`);
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = "⏳ Filling Form...";
+      }
+
+      addLog(`[PREVIEW] Launching browser to map fields for '${job.title}' at '${job.company}'...`);
+
+      try {
+        const res = await fetch('/api/apply/preview', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ job: job })
+        });
+        const data = await res.json();
+
+        if (data.status === 'success') {
+          addLog(`[PREVIEW] ✅ Form mapped using ${data.ats_used}: ${data.mapped_fields.length} inputs & ${data.qa_records.length} AI responses.`);
+
+          document.getElementById('mTitle').innerText = job.title;
+          document.getElementById('mSubTitle').innerText = `${job.company} • ${job.location || 'Remote'} [Adapter: ${data.ats_used}]`;
+
+          const resumeBadge = `<span class="field-tag" style="background: rgba(34, 197, 94, 0.2); border-color: var(--success); color: var(--success);"><strong>Resume Attached:</strong> data/SURYA.pdf</span>`;
+          const fieldTags = (data.mapped_fields || []).map(f =>
+            `<span class="field-tag"><strong>${f.field}:</strong> ${f.value}</span>`
+          ).join("");
+          document.getElementById('mMappedFields').innerHTML = resumeBadge + fieldTags;
+
+          document.getElementById('mQAList').innerHTML = data.qa_records.length > 0
+            ? data.qa_records.map(q => `
+                <div class="qa-box">
+                  <div style="color: var(--accent); font-weight: 600;">Q: ${q.question}</div>
+                  <div style="color: #cbd5e1; margin-top: 0.25rem;">A: ${q.answer}</div>
+                </div>
+              `).join("")
+            : "<div style='font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem;'>No open-ended textarea questions detected. Standard application fields mapped.</div>";
+
+          document.getElementById('mScreenshot').src = data.screenshot_url;
+          document.getElementById('reviewModal').style.display = "flex";
+        } else if (data.status === 'held') {
+          addLog(`<span style="color: #fbbf24;">[HELD] ${data.message}</span>`);
+        } else {
+          addLog(`<span style="color: #ef4444;">[PREVIEW ERROR] ${data.message}</span>`);
+        }
+      } catch (err) {
+        addLog(`<span style="color: #ef4444;">[PREVIEW ERROR] ${err.message}</span>`);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = "🔍 Preview & Verify";
+        }
+      }
+    }
+
+    async function approveCurrentJob() {
+      if (currentJobIdx === null) return;
+      const job = matchedResults[currentJobIdx];
+      const approveBtn = document.getElementById('mBtnApprove');
+      approveBtn.disabled = true;
+      approveBtn.innerText = "⏳ Submitting...";
+
+      addLog(`[SUBMIT] Submitting application for '${job.company}'...`);
+
+      try {
+        const res = await fetch('/api/apply/approve', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ job: job })
+        });
+        const data = await res.json();
+
+        if (data.status === 'success' || data.status === 'warning') {
+          addLog(`[SUBMIT] ✅ Success: ${data.message}`);
+          closeModal();
+
+          const cardBtn = document.getElementById(`btn-preview-${currentJobIdx}`);
+          if (cardBtn) {
+            cardBtn.innerText = "✅ Submitted";
+            cardBtn.style.background = "#10b981";
+            cardBtn.style.color = "#fff";
+            cardBtn.disabled = true;
+          }
+          loadMeta();
+        } else {
+          addLog(`<span style="color: #ef4444;">[SUBMIT ERROR] ${data.message}</span>`);
+        }
+      } catch (err) {
+        addLog(`<span style="color: #ef4444;">[SUBMIT ERROR] ${err.message}</span>`);
+      } finally {
+        approveBtn.disabled = false;
+        approveBtn.innerText = "✅ Approve & Submit Application";
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('reviewModal').style.display = "none";
+      currentJobIdx = null;
     }
 
     function changePage(delta) {

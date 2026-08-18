@@ -17,7 +17,21 @@ config/*.json
 .env.*
 data/vault/
 data/credentials/
+data/screenshots/
 
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Data & Sensitive Assets
+data/SURYA.pdf
+data/*.pdf
+data/resumes/
+data/screenshots/
+data/applications.db
+data/cache/
 # ==========================================
 # 3. Generated Resumes, PDFs & Local Databases
 # ==========================================

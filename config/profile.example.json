@@ -1,0 +1,14 @@
+{
+  "personal": {
+    "full_name": "Full Name",
+    "email": "user@example.com",
+    "phone": "+1234567890",
+    "location": "City, Country",
+    "linkedin": "https://linkedin.com/in/username",
+    "github": "https://github.com/username",
+    "website": "https://example.com"
+  },
+  "experiences": [],
+  "projects": [],
+  "education": []
+}
