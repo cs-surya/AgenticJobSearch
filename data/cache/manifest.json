@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-09-09T02:59:43.118974+00:00",
-  "total_jobs": 301658,
-  "total_chunks": 61,
+  "last_updated": "2026-09-10T02:55:49.711446+00:00",
+  "total_jobs": 299138,
+  "total_chunks": 60,
   "chunks": [
     "jobs_chunk_0.json.gz",
     "jobs_chunk_1.json.gz",
@@ -62,7 +62,6 @@
     "jobs_chunk_56.json.gz",
     "jobs_chunk_57.json.gz",
     "jobs_chunk_58.json.gz",
-    "jobs_chunk_59.json.gz",
-    "jobs_chunk_60.json.gz"
+    "jobs_chunk_59.json.gz"
   ]
 }
